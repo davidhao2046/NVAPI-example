@@ -5,9 +5,7 @@
 
 #pragma comment(lib, "nvapi.lib" )
 
-NvDRSSessionHandle _session;
-NvDRSProfileHandle _profile;
-NVDRS_PROFILE      _profInfo;
+
 #define PrintError(x)
 
 bool DisplayProfileContents(NvDRSSessionHandle hSession, NvDRSProfileHandle hProfile)
@@ -117,6 +115,10 @@ void EnumerateProfilesOnSystem()
 
 int main()
 {
+  NvDRSSessionHandle _session{};
+  NvDRSProfileHandle _profile{};
+  NVDRS_PROFILE      _profInfo{};
+
   if (NvAPI_Initialize() != NVAPI_OK)
     throw std::runtime_error("NVIDIA Api not initialized");
 
@@ -139,11 +141,10 @@ int main()
   NvU32               BusId;
   NvU32               BiosRevision;
   NvU32               BiosRevisionOEM;
-  NV_BOARD_INFO       BoardInfo;
-  BoardInfo.version = NV_BOARD_INFO_VER;
-  NvU32 ConfiguredFeatureMask;
-  NvU32 ConsistentFeatureMask;
-  NvU32 CoreCount;
+  NV_BOARD_INFO       BoardInfo{ NV_BOARD_INFO_VER };
+  NvU32               ConfiguredFeatureMask;
+  NvU32               ConsistentFeatureMask;
+  NvU32               CoreCount;
 
   NvAPI_EnumPhysicalGPUs(nvGPUHandle, &GpuCount);
 
@@ -154,6 +155,7 @@ int main()
   NvAPI_GPU_GetVbiosRevision(nvGPUHandle[0], &BiosRevision);
   NvAPI_GPU_GetVbiosOEMRevision(nvGPUHandle[0], &BiosRevisionOEM);
   NvAPI_GPU_GetVbiosVersionString(nvGPUHandle[0], str);
+
   status = NvAPI_GPU_GetBoardInfo(nvGPUHandle[0], &BoardInfo);
   status = NvAPI_GPU_WorkstationFeatureQuery(nvGPUHandle[0], &ConfiguredFeatureMask, &ConsistentFeatureMask);
   status = NvAPI_GPU_GetGpuCoreCount(nvGPUHandle[0], &CoreCount);
@@ -165,17 +167,17 @@ int main()
 
   DisplayProfileContents(_session, _profile);
 
-  if (NvAPI_DRS_GetBaseProfile(_session, &_profile) != NVAPI_OK)
-    throw std::runtime_error("can't get current global profile");
-  
-  NvAPI_DRS_RestoreProfileDefault(_session, _profile);
-  DisplayProfileContents(_session, _profile);
+  //if (NvAPI_DRS_GetBaseProfile(_session, &_profile) != NVAPI_OK)
+  //  throw std::runtime_error("can't get current global profile");
 
+  //NvAPI_DRS_RestoreProfileDefault(_session, _profile);
+  //DisplayProfileContents(_session, _profile);
 
+  //NvAPI_DRS_SaveSettings(_session);
 
-  //unsigned int test  = (unsigned int)-0x68;
-  //unsigned int index = 0;
-  //while ((status = NvAPI_DRS_EnumProfiles(_session, index, &_profile)) == NVAPI_OK) {
+  // unsigned int test  = (unsigned int)-0x68;
+  // unsigned int index = 0;
+  // while ((status = NvAPI_DRS_EnumProfiles(_session, index, &_profile)) == NVAPI_OK) {
   //  _profInfo.version = NVDRS_PROFILE_VER;
 
   //  DisplayProfileContents(_session, _profile);
@@ -186,7 +188,7 @@ int main()
   //  index++;
   //}
 
-  //EnumerateProfilesOnSystem();
+  // EnumerateProfilesOnSystem();
 
   NvAPI_DRS_DestroySession(_session);
 
