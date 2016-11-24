@@ -1,9 +1,9 @@
 # NVAPI-example
-NVAPI-example vs2015
+NVAPI-example for Visual Studio 2015
 
 Shows how to enumerate NVIDIA driver settings and change them.
 
-Source links: 
+_Source links:_
 
 1. [NVAPI](https://developer.nvidia.com/nvapi)
 
