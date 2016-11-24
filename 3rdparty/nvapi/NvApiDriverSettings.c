@@ -796,4 +796,3 @@ SettingWSTRINGNameString mapSettingWSTRING[TOTAL_WSTRING_SETTING_NUM] =
     {D3DOGL_GPU_MAX_POWER_ID,              D3DOGL_GPU_MAX_POWER_STRING,               1, (const wchar_t **)g_valuesD3DOGL_GPU_MAX_POWER, L"0"},
     {ICAFE_LOGO_CONFIG_ID,                 ICAFE_LOGO_CONFIG_STRING,                  0, NULL,                                     L""},
 };
-
